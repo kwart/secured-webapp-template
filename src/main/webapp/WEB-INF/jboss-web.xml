@@ -1,18 +1,15 @@
-<!--
-Add security domain to the JBosss AS standalone.xml:
-
-<security-domain name="web-tests" cache-type="default">
-	<authentication>
-		<login-module code="UsersRoles" flag="required"/>
-	</authentication>
-</security-domain>
-
-or use CLI (jboss-cli.sh):
-
-connect
-/subsystem=security/security-domain=web-tests:add(cache-type=default)
-/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}
--->
 <jboss-web>
-	<security-domain flushOnSessionInvalidation="true">web-tests</security-domain>
+<!--  
+define test domain in standalone.xml:
+<security-domain name="test-deny">
+    <authentication>
+        <login-module code="UsersRoles" flag="required"/>
+    </authentication>
+    <authorization>
+        <policy-module code="org.jboss.security.authorization.modules.AllDenyAuthorizationModule" flag="required"/>
+    </authorization>
+</security-domain>
+ -->
+	<security-domain>test-deny</security-domain>
+	<use-jboss-authorization>true</use-jboss-authorization>
 </jboss-web>
