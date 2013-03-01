@@ -5,6 +5,6 @@
     <title><fmt:message key="login.title"/></title>
 </head>
 <body>
-<p>Check username and password and try again</p>
+<p>Check username and password and <a href="./">try again.</a></p>
 </body>
 </html>
