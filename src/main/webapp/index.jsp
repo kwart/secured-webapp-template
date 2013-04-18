@@ -23,6 +23,12 @@ Principal: ${empty pageContext.request.userPrincipal ?"": pageContext.request.us
 	<li><a href="<c:url value='/user/'/>">User page</a> - only users with User or Admin role can access it</li>
 	<li><a href="<c:url value='/admin/'/>">Admin page</a> - only users with Admin role can access it</li>
 </ul>
+<p>Also 2 servlets (v. 3.0 - annotation used) are included - both returns name of caller principal</p>
+<ul>
+	<li><a href="<c:url value='/SimpleServlet'/>">SimpleServlet</a> - unprotected</li>
+	<li><a href="<c:url value='/SimpleServlet?createSession='/>">SimpleServlet with session</a> - unprotected</li>
+	<li><a href="<c:url value='/SimpleSecuredServlet'/>">SimpleSecuredServlet</a> - protected - only Admin role has access</li>
+</ul>
 <c:if test="${not empty pageContext.request.userPrincipal}">
 	<a href="<c:url value='/logout.jsp'/>">Logout</a>
 </c:if>
