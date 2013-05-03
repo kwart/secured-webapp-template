@@ -10,19 +10,6 @@
 
 	<display-name>secured-webapp</display-name>
 
-	<!-- Define the basename for a resource bundle for I18N -->
-	<context-param>
-		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-		<param-value>org.jboss.test.web.securedwebapp.ApplicationResources</param-value>
-	</context-param>
-
-	<!-- Fallback locale if no bundles found for browser's preferred locale -->
-	<!-- Force a single locale using param-name 'javax.servlet.jsp.jstl.fmt.locale' -->
-	<context-param>
-		<param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
-		<param-value>en</param-value>
-	</context-param>
-
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>

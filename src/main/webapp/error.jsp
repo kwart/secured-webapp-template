@@ -7,7 +7,7 @@
 
 <html>
 <head>
-    <title><fmt:message key="errorPage.title"/></title>
+    <title>An error has occurred</title>
 </head>
 
 <body>
