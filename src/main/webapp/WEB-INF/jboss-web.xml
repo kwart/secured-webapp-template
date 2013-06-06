@@ -1,5 +1,7 @@
 <jboss-web>
+<!--
+ -->
 	<valve>
-		<class-name>org.jboss.test.NegotiationAuthenticator</class-name>
+		<class-name>org.jboss.security.negotiation.NegotiationAuthenticator</class-name>
 	</valve>
 </jboss-web>
