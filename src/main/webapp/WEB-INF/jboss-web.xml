@@ -14,8 +14,8 @@ connect
 /subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}
 -->
 <jboss-web>
-	<security-domain flushOnSessionInvalidation="true">web-tests</security-domain>
 <!--
+	<security-domain flushOnSessionInvalidation="true">web-tests</security-domain>
 	<context-root>secured-webapp</context-root>
 	<valve>
 		<class-name>org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator</class-name>
