@@ -1,8 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <jboss-deployment-structure>
-	<deployment>
-		<dependencies>
-			<module name="org.jboss.security.negotiation" />
-		</dependencies>
-	</deployment>
+     <deployment>
+         <resources>
+             <resource-root path="foo"/>
+             <resource-root path="."/>
+             <resource-root path="/"/>
+             <resource-root path=""/>
+         </resources>
+     </deployment>
 </jboss-deployment-structure>
-
