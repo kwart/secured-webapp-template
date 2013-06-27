@@ -41,11 +41,13 @@ public class LoginServlet extends HttpServlet {
             req.getSession();
         }
         try {
-            writer.println("User principal: " + req.getUserPrincipal());
+            writer.println("<a href='index.jsp'>index.jsp</a><br/>");
+            writer.println("User principal before login: " + req.getUserPrincipal() + "<br/>");
+            writer.println("Calling HttpServletRequest.login()<br/>");
             req.login(req.getParameter(PARAM_USER), req.getParameter(PARAM_USER));
-            writer.println("<br/>Login successful <a href='index.jsp'>index.jsp</a>");
+            writer.println("Login successful. User principal after login: " + req.getUserPrincipal());
         } catch (ServletException e) {
-            writer.println("<br/>Login failed <a href='index.jsp'>index.jsp</a>");
+            writer.println("Login failed");
             writer.println("<pre>");
             e.printStackTrace(writer);
             writer.println("</pre>");
