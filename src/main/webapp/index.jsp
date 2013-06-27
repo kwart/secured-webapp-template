@@ -17,20 +17,29 @@ PathInfo: ${pageContext.request.pathInfo}
 AuthType:  ${pageContext.request.authType}
 Principal: ${empty pageContext.request.userPrincipal ?"": pageContext.request.userPrincipal.name}
 </pre>
-<p>This application contains 3 pages:</p>
+<p>This application contains several pages:</p>
 <ul>
 	<li><a href="<c:url value='/'/>">Home page</a> - unprotected</li>
 	<li><a href="<c:url value='/user/'/>">User page</a> - only users with User or Admin role can access it</li>
 	<li><a href="<c:url value='/admin/'/>">Admin page</a> - only users with Admin role can access it</li>
 </ul>
-<p>Also 2 servlets (v. 3.0 - annotation used) are included - both returns name of caller principal</p>
+<p>Also test Servlets (3.0 - annotations used) are included:</p>
 <ul>
-	<li><a href="<c:url value='/SimpleServlet'/>">SimpleServlet</a> - unprotected</li>
-	<li><a href="<c:url value='/SimpleServlet?createSession='/>">SimpleServlet with session</a> - unprotected</li>
-	<li><a href="<c:url value='/SimpleSecuredServlet'/>">SimpleSecuredServlet</a> - protected - only Admin role has access</li>
+	<li><a href="<c:url value='/SimpleServlet'/>">SimpleServlet</a> - prints UserPrincipal - unprotected (<a href="<c:url value='/SimpleServlet?createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/SimpleSecuredServlet'/>">SimpleSecuredServlet</a> - prints UserPrincipal - protected - only Admin role has access (<a href="<c:url value='/SimpleSecuredServlet?createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/SessionCheckServlet'/>">SessionCheckServlet</a> - tests session - unprotected (<a href="<c:url value='/SessionCheckServlet?invalidateSession='/>">invalidate</a>, 
+		<a href="<c:url value='/SessionCheckServlet?removeCounter='/>">remove counter attribute</a>)</li>
 </ul>
+<p>Authentication-related servlets:</p>
+<ul>
+	<li><a href="<c:url value='/AuthnServlet'/>">AuthnServlet</a> - calls HttpServletRequest.authenticate(HttpServletResponse) (<a href="<c:url value='/AuthnServlet?createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/LoginServlet?user=admin&password=admin'/>">LoginServlet - admin/admin</a> (<a href="<c:url value='/LoginServlet?user=admin&password=admin&createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/LoginServlet?user=user&password=user'/>">LoginServlet - user/user</a> (<a href="<c:url value='/LoginServlet?user=user&password=user&createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/LogoutServlet'/>">LogoutServlet</a> (<a href="<c:url value='/LogoutServlet?createSession='/>">with session</a>, <a href="<c:url value='/LogoutServlet?invalidateSession='/>">invalidate session</a>)</li>
+</ul>
+
 <c:if test="${not empty pageContext.request.userPrincipal}">
-	<a href="<c:url value='/logout.jsp'/>">Logout</a>
+	<a href="<c:url value='/logout.jsp'/>">Logout JSP</a> - invalidates session and redirects user to context root.
 </c:if>
 <p>There are 2 user accounts prepared for JBoss AS testing:</p>
 <ul>
