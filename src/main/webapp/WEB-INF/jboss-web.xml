@@ -15,4 +15,10 @@ connect
 -->
 <jboss-web>
 	<security-domain flushOnSessionInvalidation="true">web-tests</security-domain>
+<!--
+	<context-root>secured-webapp</context-root>
+	<valve>
+		<class-name>org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator</class-name>
+	</valve>
+-->
 </jboss-web>
