@@ -1,48 +1,30 @@
-# Template for secured Java web applications
+# BZ-958572 reproducer
 
-Simple Java web application template with the secured content.
+## Steps to reproduce
 
-## How to get it
+1. save the attached reproducer to `/tmp`
 
-You should have [git](http://git-scm.com/) installed
+1. unzip EAP 6.1.1 ER4 and open `[EAP_INST]\bin` folder in a terminal window
+ 
+1. Add a new user with Admin role to the ApplicationRealm:
 
-	$ git clone git://github.com/kwart/secured-webapp-template.git
+		./add-user.sh -a -u admin -p pass.1234 -r ApplicationRealm -ro Admin
 
-or you can download [current sources as a zip file](https://github.com/kwart/secured-webapp-template/archive/master.zip)
+1. start EAP in a domain mode:
 
-## How to build it
+		./domain.sh
 
-You need to have [Maven](http://maven.apache.org/) installed
+1. set the `ha` profile for `main-server-group`, enable clustered SSO and deploy the reproducer
 
-	$ cd secured-webapp-template
-	$ mvn clean package
+		./jboss-cli.sh -c
 
-If the target container doesn't include JSTL implementation, then set the `jstl` property while calling the Maven build
+		/profile=ha/subsystem=web/virtual-server=default-host/sso=configuration:add(cache-container="web",cache-name="sso",reauthenticate="false")
+		/server-group=main-server-group:write-attribute(name=profile,value=ha)
+		/server-group=main-server-group:write-attribute(name=socket-binding-group, value=ha-sockets)
+		/server-group=main-server-group:restart-servers
+		deploy /tmp/bz-958572.war --server-groups=main-server-group
+		
+1. open following link in your browser [http://localhost:8080/bz-958572/](http://localhost:8080/bz-958572/) and go through
+the reproducer using "`Next step`" navigation link (you'll need to provide the credentials during 2nd step - `admin/pass.1234`)
+1. step 6 hangs (6.1.1 ER3 and ER4)  => BUG
 
-	$ mvn clean package -Djstl
-
-## How to install it
-
-Copy the produced `secured-webapp.war` from the `target` folder to the deployment folder of your container.
-
-Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
-
-### How to configure it on JBoss AS 7.x / EAP 6.x
-
-The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
-Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
-
-	$ ./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests:add(cache-type=default)'
-	$ ./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}'
-
-or by editing `standalone/configuration/standalone.xml`, where you have to add a new child to the `<security-domains>` element
-
-	<security-domain name="web-tests" cache-type="default">
-		<authentication>
-			<login-module code="UsersRoles" flag="required"/>
-		</authentication>
-	</security-domain>
-
-## License
-
-* [GNU Lesser General Public License Version 2.1](http://www.gnu.org/licenses/lgpl-2.1-standalone.html)

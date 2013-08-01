@@ -1,4 +1,4 @@
-<%@ include file="/taglibs.jsp"%>
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" session="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,11 +21,8 @@
         </label>
         <input type="password" name="j_password" id="j_password" tabindex="2" />
     </li>
-
-    <li>
-        <input type="submit" name="login" value="Login"/>
-    </li>
 </ul>
+<input type="submit" name="login" value="Login"/>
 </fieldset>
 </form>
 </body>
