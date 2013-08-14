@@ -26,5 +26,12 @@
 		
 1. open following link in your browser [http://localhost:8080/bz-958572/](http://localhost:8080/bz-958572/) and go through
 the reproducer using "`Next step`" navigation link (you'll need to provide the credentials during 2nd step - `admin/pass.1234`)
-1. step 6 hangs (6.1.1 ER3 and ER4)  => BUG
+1. step 11 doesn't require login  => BUG
 
+## Redeploy reproducer
+
+	./jboss-cli.sh -c
+
+	/server-group=main-server-group/deployment=bz-958572.war:remove()
+	undeploy bz-958572.war
+	deploy /tmp/bz-958572.war --server-groups=main-server-group
