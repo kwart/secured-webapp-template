@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
             writer.println("<a href='index.jsp'>index.jsp</a><br/>");
             writer.println("User principal before login: " + req.getUserPrincipal() + "<br/>");
             writer.println("Calling HttpServletRequest.login()<br/>");
-            req.login(req.getParameter(PARAM_USER), req.getParameter(PARAM_USER));
+            req.login(req.getParameter(PARAM_USER), req.getParameter(PARAM_PASSWORD));
             writer.println("Login successful. User principal after login: " + req.getUserPrincipal());
         } catch (ServletException e) {
             writer.println("Login failed");
