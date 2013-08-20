@@ -16,6 +16,8 @@ ServletPath: ${pageContext.request.servletPath}
 PathInfo: ${pageContext.request.pathInfo}
 AuthType:  ${pageContext.request.authType}
 Principal: ${empty pageContext.request.userPrincipal ?"": pageContext.request.userPrincipal.name}
+isUserInRole("Admin"): <%= request.isUserInRole("Admin") %>
+isUserInRole("User"): <%= request.isUserInRole("User") %>
 </pre>
 <p>This application contains several pages:</p>
 <ul>
