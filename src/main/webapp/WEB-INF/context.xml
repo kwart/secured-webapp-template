@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context>
-<!--
-	<Valve
-		className="org.picketlink.identity.federation.bindings.tomcat.sp.SPRedirectFormAuthenticator"
-		characterEncoding="UTF-8" />
--->
-</Context>
