@@ -15,6 +15,7 @@ connect
 -->
 <jboss-web>
 	<security-domain flushOnSessionInvalidation="true">web-tests</security-domain>
+	<disable-audit>false</disable-audit>
 <!--
 	<context-root>secured-webapp</context-root>
 	<valve>
