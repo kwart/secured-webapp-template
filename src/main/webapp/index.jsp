@@ -27,9 +27,18 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 </ul>
 <p>Also test Servlets (3.0 - annotations used) are included:</p>
 <ul>
-	<li><a href="<c:url value='/SimpleServlet'/>">SimpleServlet</a> - prints UserPrincipal - unprotected (<a href="<c:url value='/SimpleServlet?createSession='/>">with session</a>)</li>
-	<li><a href="<c:url value='/SimpleSecuredServlet'/>">SimpleSecuredServlet</a> - prints UserPrincipal - protected - only Admin role has access (<a href="<c:url value='/SimpleSecuredServlet?createSession='/>">with session</a>)</li>
-	<li><a href="<c:url value='/SessionCheckServlet'/>">SessionCheckServlet</a> - tests session - unprotected (<a href="<c:url value='/SessionCheckServlet?invalidateSession='/>">invalidate</a>, 
+	<li><a href="<c:url value='/SimpleServlet'/>">SimpleServlet</a> - prints UserPrincipal - unprotected 
+	    (<a href="<c:url value='/SimpleServlet?createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/SysPropServlet'/>">SysPropServlet</a> - prints (if allowed) java.home system property value
+	    (<a href="<c:url value='/SysPropServlet?property=java.version'/>">java.version</a>,
+	    <a href="<c:url value='/SysPropServlet?property=user.home'/>">user.home</a>)</li>
+	<li><a href="<c:url value='/ReadFileServlet'/>">ReadFileServlet</a> - prints (if allowed) content of /etc/passwd file
+	    (<a href="<c:url value='/SysPropServlet?file=%2Fetc%2Fgroup'/>">/etc/group</a>,
+	    <a href="<c:url value='/SysPropServlet?file=%2Fvar%2Flog%2Fauth.log'/>">/var/log/auth.log</a>)</li>
+	<li><a href="<c:url value='/SimpleSecuredServlet'/>">SimpleSecuredServlet</a> - prints UserPrincipal - protected - only Admin role has access 
+	    (<a href="<c:url value='/SimpleSecuredServlet?createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/SessionCheckServlet'/>">SessionCheckServlet</a> - tests session - unprotected 
+	    (<a href="<c:url value='/SessionCheckServlet?invalidateSession='/>">invalidate</a>,
 		<a href="<c:url value='/SessionCheckServlet?removeCounter='/>">remove counter attribute</a>)</li>
 </ul>
 <p>Authentication-related servlets:</p>
