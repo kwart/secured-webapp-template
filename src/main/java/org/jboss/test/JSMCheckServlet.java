@@ -10,20 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet, which prints value of system property. By default it prints value of
- * property {@value #DEFAULT_PROPERTY_NAME}, but you can specify another
- * property name by using request parameter {@value #PARAM_PROPERTY_NAME}.
+ * Servlet, which only checks if the JSM is enabled.
  * 
  * @author Josef Cacek
  */
-@WebServlet(PrintSystemPropertyServlet.SERVLET_PATH)
-public class PrintSystemPropertyServlet extends HttpServlet {
+@WebServlet(JSMCheckServlet.SERVLET_PATH)
+public class JSMCheckServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String SERVLET_PATH = "/SysPropServlet";
-	public static final String PARAM_PROPERTY_NAME = "property";
-	public static final String DEFAULT_PROPERTY_NAME = "java.home";
+	public static final String SERVLET_PATH = "/JSMCheckServlet";
 
 	/**
 	 * @param req
@@ -37,12 +33,9 @@ public class PrintSystemPropertyServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/plain");
-		String property = req.getParameter(PARAM_PROPERTY_NAME);
-		if (property == null) {
-			property = DEFAULT_PROPERTY_NAME;
-		}
 		final PrintWriter writer = resp.getWriter();
-		writer.write(System.getProperty(property));
+		writer.write("Java Security Manager is "
+				+ (System.getSecurityManager() != null ? "enabled" : "disabled"));
 		writer.close();
 	}
 }

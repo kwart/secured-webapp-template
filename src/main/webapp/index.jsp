@@ -33,13 +33,14 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	    (<a href="<c:url value='/SysPropServlet?property=java.version'/>">java.version</a>,
 	    <a href="<c:url value='/SysPropServlet?property=user.home'/>">user.home</a>)</li>
 	<li><a href="<c:url value='/ReadFileServlet'/>">ReadFileServlet</a> - prints (if allowed) content of /etc/passwd file
-	    (<a href="<c:url value='/SysPropServlet?file=%2Fetc%2Fgroup'/>">/etc/group</a>,
-	    <a href="<c:url value='/SysPropServlet?file=%2Fvar%2Flog%2Fauth.log'/>">/var/log/auth.log</a>)</li>
+	    (<a href="<c:url value='/ReadFileServlet?file=%2Fetc%2Fgroup'/>">/etc/group</a>,
+	    <a href="<c:url value='/ReadFileServlet?file=%2Fvar%2Flog%2Fauth.log'/>">/var/log/auth.log</a>)</li>
 	<li><a href="<c:url value='/SimpleSecuredServlet'/>">SimpleSecuredServlet</a> - prints UserPrincipal - protected - only Admin role has access 
 	    (<a href="<c:url value='/SimpleSecuredServlet?createSession='/>">with session</a>)</li>
 	<li><a href="<c:url value='/SessionCheckServlet'/>">SessionCheckServlet</a> - tests session - unprotected 
 	    (<a href="<c:url value='/SessionCheckServlet?invalidateSession='/>">invalidate</a>,
 		<a href="<c:url value='/SessionCheckServlet?removeCounter='/>">remove counter attribute</a>)</li>
+	<li><a href="<c:url value='/JSMCheckServlet'/>">JSMCheckServlet</a> - checks if the Java Security Manager is enabled</li>
 </ul>
 <p>Authentication-related servlets:</p>
 <ul>
