@@ -1,47 +1,82 @@
-# Template for secured Java web applications
+# Servlet with secured GET and POST
 
 Simple Java web application template with the secured content.
 
-## How to get it
-
-You should have [git](http://git-scm.com/) installed
-
-	$ git clone git://github.com/kwart/secured-webapp-template.git
-
-or you can download [current sources as a zip file](https://github.com/kwart/secured-webapp-template/archive/master.zip)
-
 ## How to build it
 
-You need to have [Maven](http://maven.apache.org/) installed
+You need to have [Maven 3.x](http://maven.apache.org/) installed
 
-	$ cd secured-webapp-template
-	$ mvn clean package
-
-If the target container doesn't include JSTL implementation, then set the `jstl` property while calling the Maven build
-
-	$ mvn clean package -Djstl
+	mvn clean package
 
 ## How to install it
 
-Copy the produced `secured-webapp.war` from the `target` folder to the deployment folder of your container.
+Start the application server.
 
-Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
+### Deploy war
 
-### How to configure it on JBoss AS 7.x / EAP 6.x
+Copy the `secured-webapp.war` from the `target` folder to the `[EAP_HOME]/standalone/deployments`.
 
-The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
-Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
+### Test applicaton
 
-	$ ./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests:add(cache-type=default)'
-	$ ./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}'
+Use `curl` to test if the GET and POST HTTP methods are protected:
 
-or by editing `standalone/configuration/standalone.xml`, where you have to add a new child to the `<security-domains>` element
+	curl -v -X GET http://localhost:8080/secured-webapp/
 
-	<security-domain name="web-tests" cache-type="default">
-		<authentication>
-			<login-module code="UsersRoles" flag="required"/>
-		</authentication>
-	</security-domain>
+should result in "401 Unauthorized" response
+
+	* Adding handle: conn: 0x1330a80
+	* Adding handle: send: 0
+	* Adding handle: recv: 0
+	* Curl_addHandleToPipeline: length: 1
+	* - Conn 0 (0x1330a80) send_pipe: 1, recv_pipe: 0
+	* About to connect() to localhost port 8080 (#0)
+	*   Trying 127.0.0.1...
+	* Connected to localhost (127.0.0.1) port 8080 (#0)
+	> GET /secured-webapp/ HTTP/1.1
+	> User-Agent: curl/7.32.0
+	> Host: localhost:8080
+	> Accept: */*
+	> 
+	< HTTP/1.1 401 Unauthorized
+	* Server Apache-Coyote/1.1 is not blacklisted
+	< Server: Apache-Coyote/1.1
+	< Pragma: No-cache
+	< Cache-Control: no-cache
+	< Expires: Thu, 01 Jan 1970 01:00:00 CET
+	< WWW-Authenticate: Basic realm="Secured kingdom"
+	< Content-Type: text/html;charset=utf-8
+	< Content-Length: 1062
+	< Date: Tue, 15 Apr 2014 12:11:28 GMT
+	...
+
+and 
+
+	curl -v -X DELETE http://localhost:8080/secured-webapp/
+
+should result in "200 OK" response 
+
+	* Adding handle: conn: 0x1e35a80
+	* Adding handle: send: 0
+	* Adding handle: recv: 0
+	* Curl_addHandleToPipeline: length: 1
+	* - Conn 0 (0x1e35a80) send_pipe: 1, recv_pipe: 0
+	* About to connect() to localhost port 8080 (#0)
+	*   Trying 127.0.0.1...
+	* Connected to localhost (127.0.0.1) port 8080 (#0)
+	> DELETE /secured-webapp/ HTTP/1.1
+	> User-Agent: curl/7.32.0
+	> Host: localhost:8080
+	> Accept: */*
+	> 
+	< HTTP/1.1 200 OK
+	* Server Apache-Coyote/1.1 is not blacklisted
+	< Server: Apache-Coyote/1.1
+	< Content-Type: text/plain;charset=ISO-8859-1
+	< Content-Length: 15
+	< Date: Tue, 15 Apr 2014 12:27:13 GMT
+	< 
+	Hello, World!
+	* Connection #0 to host localhost left intact
 
 ## License
 
