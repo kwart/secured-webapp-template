@@ -3,16 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jboss.test.web</groupId>
-    <artifactId>secured-webapp</artifactId>
+    <artifactId>run-as</artifactId>
     <packaging>war</packaging>
     <version>0.1-SNAPSHOT</version>
 
-    <name>secured-webapp</name>
+    <name>${project.artifactId}</name>
     <url>https://github.com/kwart/secured-webapp-template</url>
 
     <build>
-        <finalName>secured-webapp</finalName>
-
+        <finalName>${project.name}</finalName>    
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -103,40 +102,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <!-- include JSTL 1.1.2 - Apache Taglibs -->
-        <profile>
-            <id>include-jstl</id>
-            <activation>
-                <property>
-                    <name>jstl</name>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jstl</artifactId>
-                    <version>1.1.2</version>
-                </dependency>
-                <dependency>
-                    <groupId>taglibs</groupId>
-                    <artifactId>standard</artifactId>
-                    <version>1.1.2</version>
-                </dependency>
-                <dependency>
-                    <groupId>taglibs</groupId>
-                    <artifactId>c</artifactId>
-                    <version>1.1.2</version>
-                    <type>tld</type>
-                </dependency>
-                <dependency>
-                    <groupId>taglibs</groupId>
-                    <artifactId>fmt</artifactId>
-                    <version>1.1.2</version>
-                    <type>tld</type>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

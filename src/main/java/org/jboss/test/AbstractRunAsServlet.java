@@ -25,32 +25,22 @@ package org.jboss.test;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.test.ejb.Hello;
-import org.jboss.test.ejb.HelloBean;
 
 /**
- * RunAs annotated servlet which calls protected EJB method {@link Hello#sayHello()}.
  * 
  * @author Josef Cacek
  */
-@WebServlet(RunAsServlet.SERVLET_PATH)
-@DeclareRoles({ HelloBean.AUTHORIZED_ROLE, HelloBean.NOT_AUTHZ_ROLE })
-@RunAs(HelloBean.AUTHORIZED_ROLE)
-public class RunAsServlet extends HttpServlet {
+public abstract class AbstractRunAsServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-
-    public static final String SERVLET_PATH = "/RunAsServlet";
 
     @EJB
     Hello ejb;
@@ -69,8 +59,7 @@ public class RunAsServlet extends HttpServlet {
     @Override
     public void destroy() {
         try {
-            System.out.println("Destroying " + getClass().getName());
-            System.out.println(">>>" + callProtectedEJB());
+            callProtectedEJB();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,8 +68,7 @@ public class RunAsServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            System.out.println("Initializing " + getClass().getName());
-            System.out.println(">>>" + callProtectedEJB());
+            callProtectedEJB();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +78,11 @@ public class RunAsServlet extends HttpServlet {
         // InitialContext context = new InitialContext();
         // ProtectedEJB ejb = (ProtectedEJB) context.lookup("java:global/secured-webapp/" + HelloBean.class.getSimpleName()
         // + "!" + Hello.class.getName());
-        return ejb.sayHello();
+        StackTraceElement stackTraceElement = new Exception().getStackTrace()[1];
+        System.out.println(">>> " + getClass().getName() + "." + stackTraceElement.getMethodName() + "()");
+        String hello = ejb.sayHello();
+        System.out.println(">>> " + hello);
+        return hello;
     }
 
 }
