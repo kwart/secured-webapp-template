@@ -7,11 +7,11 @@
     <packaging>war</packaging>
     <version>0.1-SNAPSHOT</version>
 
-    <name>secured-webapp</name>
+    <name>${project.artifactId}</name>
     <url>https://github.com/kwart/secured-webapp-template</url>
 
     <build>
-        <finalName>secured-webapp</finalName>
+        <finalName>${project.name}</finalName>
 
         <plugins>
             <plugin>
