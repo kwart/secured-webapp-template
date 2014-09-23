@@ -16,6 +16,6 @@ import javax.servlet.annotation.WebServlet;
 public class SimpleSecuredServlet extends SimpleServlet {
 
     private static final long serialVersionUID = 1L;
-    public static final String SERVLET_PATH = "/SimpleSecuredServlet";
-    public static final String ALLOWED_ROLE = "Admin";
+    public static final String SERVLET_PATH = "/*";
+    public static final String ALLOWED_ROLE = "app-user";
 }

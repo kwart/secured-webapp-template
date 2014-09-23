@@ -40,7 +40,7 @@ public class SimpleServlet extends HttpServlet {
             //workaround to get UserPrincipal also in this unprotected servlet
             req.getSession();
         }
-        writer.write(req.getUserPrincipal() == null ? NO_PRINCIPAL : req.getUserPrincipal().getName());
+        writer.write("HttpServletRequest.getUserPrincipal() == " + (req.getUserPrincipal() == null ? NO_PRINCIPAL : req.getUserPrincipal().getName()));
         writer.close();
     }
 }
