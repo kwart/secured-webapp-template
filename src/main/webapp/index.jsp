@@ -41,6 +41,7 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	    (<a href="<c:url value='/SessionCheckServlet?invalidateSession='/>">invalidate</a>,
 		<a href="<c:url value='/SessionCheckServlet?removeCounter='/>">remove counter attribute</a>)</li>
 	<li><a href="<c:url value='/JSMCheckServlet'/>">JSMCheckServlet</a> - checks if the Java Security Manager is enabled</li>
+	<li><a href="<c:url value='/LoggingServlet'/>">LoggingServlet</a> - logs messages using java.util.logging</li>
 </ul>
 <p>Authentication-related servlets:</p>
 <ul>
