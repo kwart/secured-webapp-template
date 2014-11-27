@@ -37,9 +37,10 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	    <a href="<c:url value='/ReadFileServlet?file=%2Fvar%2Flog%2Fauth.log'/>">/var/log/auth.log</a>)</li>
 	<li><a href="<c:url value='/SimpleSecuredServlet'/>">SimpleSecuredServlet</a> - prints UserPrincipal - protected - only Admin role has access 
 	    (<a href="<c:url value='/SimpleSecuredServlet?createSession='/>">with session</a>)</li>
-	<li><a href="<c:url value='/SessionCheckServlet'/>">SessionCheckServlet</a> - tests session - unprotected 
-	    (<a href="<c:url value='/SessionCheckServlet?invalidateSession='/>">invalidate</a>,
-		<a href="<c:url value='/SessionCheckServlet?removeCounter='/>">remove counter attribute</a>)</li>
+	<li><a href="<c:url value='/SessionCounterServlet'/>">SessionCounterServlet</a> - tests session - unprotected 
+	    (<a href="<c:url value='/SessionCounterServlet?invalidateSession='/>">invalidate</a>,
+		<a href="<c:url value='/SessionCounterServlet?removeCounter='/>">remove counter attribute</a>)</li>
+	<li><a href="<c:url value='/SessionStatusCheckServlet'/>">SessionStatusCheckServlet</a> - check session status - unprotected</li>
 	<li><a href="<c:url value='/JSMCheckServlet'/>">JSMCheckServlet</a> - checks if the Java Security Manager is enabled</li>
 	<li><a href="<c:url value='/LoggingServlet'/>">LoggingServlet</a> - logs messages using java.util.logging</li>
 </ul>

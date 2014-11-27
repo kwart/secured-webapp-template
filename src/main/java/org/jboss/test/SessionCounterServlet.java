@@ -11,21 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Session check servlet.
+ * Session test servlet, which is able to read and write an attribute from/to the HttpSession.
  * 
  * @author Josef Cacek
  */
-@WebServlet(SessionCheckServlet.SERVLET_PATH)
-public class SessionCheckServlet extends HttpServlet {
+@WebServlet(SessionCounterServlet.SERVLET_PATH)
+public class SessionCounterServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String SERVLET_PATH = "/SessionCheckServlet";
+    public static final String SERVLET_PATH = "/SessionCounterServlet";
 
     public static final String PARAM_INVALIDATE_SESSION = "invalidateSession";
     public static final String PARAM_REMOVE_COUNTER = "removeCounter";
 
-    public static final String ATTR_COUNTER = SessionCheckServlet.class.getName() + ".counter";
+    public static final String ATTR_COUNTER = SessionCounterServlet.class.getName() + ".counter";
 
     /**
      * Writes principal name as a simple text response.
