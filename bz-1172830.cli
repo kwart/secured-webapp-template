@@ -1,0 +1,9 @@
+/subsystem=security/security-domain=test-sec-domain:add(cache-type=default)
+/subsystem=security/security-domain=test-sec-domain/authentication=classic:add
+/subsystem=security/security-domain=test-sec-domain/authentication=classic/login-module=CallerIdentity:add(code=org.picketbox.datasource.security.CallerIdentityLoginModule, flag=required, module-options=[("principal"=>"principal"), ("username"=>"username"), ("password"=>"password")])
+
+/subsystem=datasources/data-source=ExampleDS:disable
+reload
+/subsystem=datasources/data-source=ExampleDS:remove
+/subsystem=datasources/data-source=ExampleDS:add(jndi-name="java:jboss/datasources/ExampleDS",use-java-context=true,connection-url="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",driver-name=h2,min-pool-size=15,max-pool-size=150,pool-prefill=true,security-domain=test-sec-domain)
+/subsystem=datasources/data-source=ExampleDS:enable
