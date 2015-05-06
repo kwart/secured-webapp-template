@@ -1,0 +1,12 @@
+batch
+/subsystem=logging/logger=org.jboss.security:add(level=ALL)
+/subsystem=logging/logger=org.jboss.as.security:add(level=ALL)
+/subsystem=logging/logger=org.picketbox:add(level=ALL)
+/subsystem=logging/logger=org.apache.catalina.authenticator:add(level=ALL)
+/subsystem=logging/logger=org.jboss.as.web.security:add(level=ALL)
+/subsystem=logging/logger=org.jboss.as.domain.management.security:add(level=ALL)
+/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level, value=ALL)
+/subsystem=security/security-domain=web-tests:add(cache-type=default)
+/subsystem=security/security-domain=web-tests/authentication=classic:add()
+/subsystem=security/security-domain=web-tests/authentication=classic/login-module=UsersRoles:add(code=UsersRoles, flag=required)
+run-batch

@@ -1,47 +1,31 @@
-# Template for secured Java web applications
+# WildFly - JSP source code leak reproducer 
 
-Simple Java web application template with the secured content.
+Simple Java web application which reproduces the JSP source code leak.
 
-## How to get it
+## Get it and build it
 
-You should have [git](http://git-scm.com/) installed
+You should have [git](http://git-scm.com/) and  [Maven](http://maven.apache.org/) installed
 
-	$ git clone git://github.com/kwart/secured-webapp-template.git
+	git clone git://github.com/kwart/secured-webapp-template.git undertow-jsp-source-reproducer
+	cd undertow-jsp-source-reproducer
+	git checkout undertow-jsp-source-reproducer
+	mvn clean package
 
-or you can download [current sources as a zip file](https://github.com/kwart/secured-webapp-template/archive/master.zip)
+## Deploy it
 
-## How to build it
+Copy the produced `jsp-source.war` from the `target` folder to the deployment folder of your container:
 
-You need to have [Maven](http://maven.apache.org/) installed
+    cp target/jsp-source.war ${WILDFLY_HOME}/standalone/deployments/
 
-	$ cd secured-webapp-template
-	$ mvn clean package
+where the `${WILDFLY_HOME}` is your WildFly installation directory.
 
-If the target container doesn't include JSTL implementation, then set the `jstl` property while calling the Maven build
+## Reproduce the issue
 
-	$ mvn clean package -Djstl
+Try the application URLs in the browser:
 
-## How to install it
-
-Copy the produced `secured-webapp.war` from the `target` folder to the deployment folder of your container.
-
-Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
-
-### How to configure it on JBoss AS 7.x / EAP 6.x
-
-The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
-Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
-
-	./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests:add(cache-type=default)'
-	./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}'
-
-or by editing `standalone/configuration/standalone.xml`, where you have to add a new child to the `<security-domains>` element
-
-	<security-domain name="web-tests" cache-type="default">
-		<authentication>
-			<login-module code="UsersRoles" flag="required"/>
-		</authentication>
-	</security-domain>
+* [application root](http://localhost:8080/jsp-source/)
+* [index.jsp](http://localhost:8080/jsp-source/index.jsp)
+* [index.jsp/](http://localhost:8080/jsp-source/index.jsp/) (i.e. with trailing slash) - ***This one reproduces the issue***
 
 ## License
 
