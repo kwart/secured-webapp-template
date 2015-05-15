@@ -43,6 +43,8 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	<li><a href="<c:url value='/SessionStatusCheckServlet'/>">SessionStatusCheckServlet</a> - check session status - unprotected</li>
 	<li><a href="<c:url value='/JSMCheckServlet'/>">JSMCheckServlet</a> - checks if the Java Security Manager is enabled</li>
 	<li><a href="<c:url value='/LoggingServlet'/>">LoggingServlet</a> - logs messages using java.util.logging</li>
+	<li><a href="<c:url value='/SubjectInfoServlet'/>">SubjectInfoServlet</a> - prints info about <code>javax.security.auth.Subject</code> instance retrieved from <code>javax.security.jacc.PolicyContext.getContext("javax.security.auth.Subject.container")</code> call
+	    (<a href="<c:url value='/SubjectInfoServlet?jaas='/>">JAAS way</a> - <code>Subject.getSubject(AccessController.getContext());</code>)</li>
 </ul>
 <p>Authentication-related servlets:</p>
 <ul>

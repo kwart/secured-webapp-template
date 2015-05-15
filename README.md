@@ -32,8 +32,8 @@ Open the application URL in the browser. E.g. [http://localhost:8080/secured-web
 The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
 Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
 
-	./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests:add(cache-type=default)'
-	./jboss-cli.sh -c '/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}'
+	/subsystem=security/security-domain=web-tests:add(cache-type=default)
+	/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}
 
 or by editing `standalone/configuration/standalone.xml`, where you have to add a new child to the `<security-domains>` element
 
