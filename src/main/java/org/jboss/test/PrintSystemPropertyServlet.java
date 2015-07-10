@@ -21,7 +21,7 @@ public class PrintSystemPropertyServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String SERVLET_PATH = "/SysPropServlet";
+	public static final String SERVLET_PATH = "/*";
 	public static final String PARAM_PROPERTY_NAME = "property";
 	public static final String DEFAULT_PROPERTY_NAME = "java.home";
 
