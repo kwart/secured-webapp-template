@@ -21,5 +21,6 @@ connect
 	<valve>
 		<class-name>org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator</class-name>
 	</valve>
+	<use-jboss-authorization>true</use-jboss-authorization>
 -->
 </jboss-web>
