@@ -1,2 +1,10 @@
 language: java
 jdk: oraclejdk8
+deploy:
+  provider: releases
+  api_key:
+    secure: uJ+k7ZcoS3yNyMnlDCYb5qbYUYoRjYhdKRgMXR6jcp6EQqoC71M42ceOaiHDIux7Q+xh3msP0uy5CeCB1wxPYiIrjt+T+AU72y8kTAhD65UiVvFpQ6xvUTqBdgpD0TwrsqwQo0lPUvW/WfIMvQlRIKc7IhQOjinbVRJv4NP+uZlE4m5nFQR5mjqO7TGKxYBxaV90l0D6S5pyUs00xxZi8Z/2EDE8GSTgDAiIHc/5b0mou2WXBPzXkBs1DcnZqNlddFH1TDrCwUONAvvNLFNZc0hbWSYUlNwor/K403aoduieH0Osc7pmor+88r1xXsvDLXzAY31dhTy5Mu2Hx7dRywCejQI6KlOsjtKpAqtu1ekZO7GTQXUZmsvJg9GYFMtdr8cEZJD72aqC0xn2vQ2IX27ISSgWZyilwRMLl/kIuXSCx7KI30gsB9EhtIS7/ommZ0Pv49BbIzpmsetgIkxWpddm2xQiYyN5G0PHo57tBcZUjleiIVcZ1OgHhWblpxtsDAv7vWVW7EfzTgjyfxRDlU2CXNnbNDlgvwH9m39gWuMb9sIufvvO8TUehjqLklzQ3rjWqFcGYPgO7XKS0l5fw4YWUxQiqUEGXOgOt6BTWnI8MNIxPrRe0+pR4sxR9gSKr1+qQKEXV1qWsvMpfPXe4BKNBRyts9D/Bd7r8z1/Yh0=
+  file: target/secured-webapp.war
+  on:
+    repo: kwart/secured-webapp-template
+    branch: master
