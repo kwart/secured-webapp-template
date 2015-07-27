@@ -27,11 +27,8 @@ import java.io.PrintWriter;
 
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +37,7 @@ import org.jboss.test.ejb.HelloBean;
 
 /**
  * RunAs annotated servlet which calls protected EJB method {@link Hello#sayHello()}.
- * 
+ *
  * @author Josef Cacek
  */
 @WebServlet(RunAsServlet.SERVLET_PATH)

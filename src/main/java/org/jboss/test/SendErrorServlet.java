@@ -1,23 +1,19 @@
 package org.jboss.test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
 /**
  * Servlet, which simply calls {@link HttpServletResponse#sendError(int)} with
  * code provided as {@value #PARAM_ERROR_CODE} request parameter value. If the
  * request parameter is not provided or it can't be parsed then
  * {@value #DEFAULT_ERROR_CODE} is used.
- * 
+ *
  * @author Josef Cacek
  */
 @WebServlet(SendErrorServlet.SERVLET_PATH)
