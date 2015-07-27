@@ -22,15 +22,10 @@
 
 package org.jboss.test;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RunAs;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.test.ejb.Hello;
 import org.jboss.test.ejb.HelloBean;
@@ -48,17 +43,6 @@ public class RunAsServlet extends CallProtectedEjbServlet {
     private static final long serialVersionUID = 1L;
 
     public static final String SERVLET_PATH = "/RunAsServlet";
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/plain");
-        PrintWriter writer = resp.getWriter();
-        try {
-            writer.print(callProtectedEJB());
-        } catch (Exception e) {
-            e.printStackTrace(writer);
-        }
-    }
 
     @Override
     public void destroy() {

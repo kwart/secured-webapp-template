@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.jboss.test.web</groupId>
-	<artifactId>secured-webapp</artifactId>
+	<artifactId>ejb-in-war</artifactId>
 	<packaging>war</packaging>
 	<version>0.1-SNAPSHOT</version>
 
