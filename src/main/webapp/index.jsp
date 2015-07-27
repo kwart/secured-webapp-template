@@ -53,7 +53,7 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 		    )</li>
 	<li><a href="<c:url value='/SubjectInfoServlet'/>">SubjectInfoServlet</a> - prints info about <code>javax.security.auth.Subject</code> instance retrieved from <code>javax.security.jacc.PolicyContext.getContext("javax.security.auth.Subject.container")</code> call
 	    (<a href="<c:url value='/SubjectInfoServlet?jaas='/>">JAAS way</a> - <code>Subject.getSubject(AccessController.getContext());</code>)</li>
-	<li><a href="<c:url value='/CallProtectedEjbServlet'/>">CallProtectedEjbServlet</a> - protected servlet which calls a simple protected <code>HelloWorld</code> EJB</li>
+	<li><a href="<c:url value='/CallProtectedEjbServlet'/>">CallProtectedEjbServlet</a> - unprotected servlet which calls a simple protected <code>HelloWorld</code> EJB</li>
 	<li><a href="<c:url value='/RunAsServlet'/>">RunAsServlet</a> - <code>@RunAs</code> child of <code>/CallProtectedEjbServlet</code> servlet.
 		This servlet also calls the protected EJB method in its <code>init()</code> and <code>destroy()</code> methods.</li>
 </ul>

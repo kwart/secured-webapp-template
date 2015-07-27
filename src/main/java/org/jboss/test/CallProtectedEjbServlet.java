@@ -38,7 +38,7 @@ import org.jboss.test.ejb.Hello;
 import org.jboss.test.ejb.HelloBean;
 
 /**
- * Protected servlet which calls protected EJB method {@link Hello#sayHello()}.
+ * Servlet which calls protected EJB method {@link Hello#sayHello()}.
  *
  * @author Josef Cacek
  */
