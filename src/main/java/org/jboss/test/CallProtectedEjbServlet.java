@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -39,18 +38,20 @@ import org.jboss.test.ejb.Hello;
 import org.jboss.test.ejb.HelloBean;
 
 /**
- * RunAs annotated servlet which calls protected EJB method {@link Hello#sayHello()}.
- * 
+ * Protected servlet which calls protected EJB method {@link Hello#sayHello()}.
+ *
  * @author Josef Cacek
  */
-@WebServlet(RunAsServlet.SERVLET_PATH)
+@WebServlet(CallProtectedEjbServlet.SERVLET_PATH)
 @DeclareRoles({ HelloBean.AUTHORIZED_ROLE, HelloBean.NOT_AUTHZ_ROLE })
-@RunAs(HelloBean.AUTHORIZED_ROLE)
-public class RunAsServlet extends CallProtectedEjbServlet {
+public class CallProtectedEjbServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String SERVLET_PATH = "/RunAsServlet";
+    public static final String SERVLET_PATH = "/CallProtectedEjbServlet";
+
+    @EJB
+    Hello ejb;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -63,24 +64,11 @@ public class RunAsServlet extends CallProtectedEjbServlet {
         }
     }
 
-    @Override
-    public void destroy() {
-        try {
-            System.out.println("Destroying " + getClass().getName());
-            System.out.println(">>>" + callProtectedEJB());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void init() throws ServletException {
-        try {
-            System.out.println("Initializing " + getClass().getName());
-            System.out.println(">>>" + callProtectedEJB());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected String callProtectedEJB() throws NamingException {
+        // InitialContext context = new InitialContext();
+        // ProtectedEJB ejb = (ProtectedEJB) context.lookup("java:global/secured-webapp/" + HelloBean.class.getSimpleName()
+        // + "!" + Hello.class.getName());
+        return ejb.sayHello();
     }
 
 }
