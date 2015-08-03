@@ -23,4 +23,8 @@ connect
 	</valve>
 	<use-jboss-authorization>true</use-jboss-authorization>
 -->
+<!--
+WildFly 10:
+    <proactive-authentication>false</proactive-authentication>
+ -->
 </jboss-web>
