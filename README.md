@@ -1,47 +1,35 @@
-# Template for secured Java web applications
+# Single JSP protected app
 
-Simple Java web application template with the secured content.
+Simple Java web application with the secured content. It contains single JSP (`index.jsp`) which prints name of currently logged user.
 
-## How to get it
+## Server configuration to use with LDAP
 
-You should have [git](http://git-scm.com/) installed
+You can use [simple LDAP server](https://github.com/kwart/ldap-server) for authentication. 
 
-	$ git clone git://github.com/kwart/secured-webapp-template.git
+Use JBoss CLI to configure security domain:
 
-or you can download [current sources as a zip file](https://github.com/kwart/secured-webapp-template/archive/master.zip)
+    /subsystem=security/security-domain=web-tests:add
+    /subsystem=security/security-domain=web-tests/authentication=classic:add
+    /subsystem=security/security-domain=web-tests/authentication=classic/login-module=Ldap:add( \
+      code=Ldap, flag=required, module-options=[ \
+      ("java.naming.provider.url"=>"ldap://127.0.01:10389"), \
+      ("java.naming.security.authentication"=>"simple"), \
+      ("java.naming.security.principal"=>"uid=admin,ou=system"), \
+      ("java.naming.security.credentials"=>"secret"), \
+      ("principalDNPrefix"=>"uid="), \
+      ("principalDNSuffix"=>",ou=Users,dc=jboss,dc=org"), \
+      ("rolesCtxDN"=>"ou=Roles,dc=jboss,dc=org"), \
+      ("roleAttributeIsDN"=>"false"), \
+      ("roleAttributeID"=>"cn"), \
+      ("uidAttributeID"=>"member"), \
+      ("matchOnUserDN"=>"true")])
 
-## How to build it
-
-You need to have [Maven](http://maven.apache.org/) installed
-
-	$ cd secured-webapp-template
-	$ mvn clean package
-
-If the target container doesn't include JSTL implementation, then set the `jstl` property while calling the Maven build
-
-	$ mvn clean package -Djstl
 
 ## How to install it
 
-Copy the produced `secured-webapp.war` from the `target` folder to the deployment folder of your container.
+Copy the `secured-webapp.war` to the WildFly/EAP deployment folder (`$JBOSS_HOME/standalone/deployments`).
 
 Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
-
-### How to configure it on JBoss AS 7.x / EAP 6.x
-
-The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
-Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
-
-	/subsystem=security/security-domain=web-tests:add(cache-type=default)
-	/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}
-
-or by editing `standalone/configuration/standalone.xml`, where you have to add a new child to the `<security-domains>` element
-
-	<security-domain name="web-tests" cache-type="default">
-		<authentication>
-			<login-module code="UsersRoles" flag="required"/>
-		</authentication>
-	</security-domain>
 
 ## License
 
