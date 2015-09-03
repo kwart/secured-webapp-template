@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat, Inc., and individual contributors
+ * Copyright 2015, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,34 +20,20 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.test.ejb;
+package org.jboss.test;
 
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import java.security.BasicPermission;
 
 /**
- * Secured stateless EJB.
- * 
+ *
  * @author Josef Cacek
  */
-@Stateless
-@DeclareRoles(HelloBean.AUTHORIZED_ROLE)
-@Remote(Hello.class)
-@RolesAllowed(HelloBean.AUTHORIZED_ROLE)
-public class HelloBean implements Hello {
+public class CustomPermission extends BasicPermission {
 
-    public static final String AUTHORIZED_ROLE = "Admin";
-    public static final String NOT_AUTHZ_ROLE = "User";
+	private static final long serialVersionUID = 1L;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.test.ejb.Hello#sayHello()
-     */
-    @Override
-    public String sayHello() {
-        return "Hello world!";
-    }
+	public CustomPermission(String name) {
+		super(name);
+	}
+
 }

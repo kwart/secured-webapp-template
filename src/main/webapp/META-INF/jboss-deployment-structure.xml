@@ -1,8 +1,7 @@
 <jboss-deployment-structure>
 	<deployment>
 		<dependencies>
-			<module name="org.jboss.security.negotiation" />
+			<module name="org.jboss.test" />
 		</dependencies>
 	</deployment>
 </jboss-deployment-structure>
-

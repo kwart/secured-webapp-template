@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2015, Red Hat, Inc., and individual contributors
+ * Copyright 2014, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,41 +19,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+
 package org.jboss.test;
 
-import java.util.Map;
-
-import javax.security.auth.Subject;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.spi.LoginModule;
+import java.util.PropertyPermission;
 
 /**
- * Empty LoginModule implementation. All the boolean methods return
- * <code>true</code>.
+ * Utility class which will be placed in a custom module deployed to the AS. It
+ * has only limited set of permissions granted in its module.xml descriptor.
  *
  * @author Josef Cacek
  */
-public class EmptyLoginModule implements LoginModule {
+public class CheckJSMUtils {
 
-	public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState,
-			Map<String, ?> options) {
+	public static void checkPropertyPermission(final String propName) throws IllegalStateException {
+		final SecurityManager sm = System.getSecurityManager();
+		if (sm != null) {
+			sm.checkPermission(new PropertyPermission(propName, "read"));
+		} else {
+			throw new IllegalStateException("Java Security Manager is not initialized");
+		}
 	}
 
-	public boolean login() throws LoginException {
-		return true;
-	}
-
-	public boolean commit() throws LoginException {
-		return true;
-	}
-
-	public boolean abort() throws LoginException {
-		return true;
-	}
-
-	public boolean logout() throws LoginException {
-		return true;
+	public static void checkCustomPermission(final String permissionName) throws IllegalStateException {
+		final SecurityManager sm = System.getSecurityManager();
+		if (sm != null) {
+			sm.checkPermission(new CustomPermission(permissionName));
+		} else {
+			throw new IllegalStateException("Java Security Manager is not initialized");
+		}
 	}
 
 }
