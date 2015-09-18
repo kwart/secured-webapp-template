@@ -16,8 +16,8 @@
 	</security-constraint>
 
 	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>Secured kingdom</realm-name>
+		<auth-method>DIGEST</auth-method>
+		<realm-name>By The Digest Secured Realm</realm-name>
 	</login-config>
 
 	<security-role>
