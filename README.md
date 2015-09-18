@@ -27,7 +27,7 @@ Copy the produced `secured-webapp.war` from the `target` folder to the deploymen
 
 Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
 
-### How to configure it on JBoss AS 7.x / EAP 6.x
+### How to configure it on JBoss AS 7.x / EAP 6.x / WildFly 8.x +
 
 The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
 Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
@@ -37,11 +37,40 @@ Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jbo
 
 or by editing `standalone/configuration/standalone.xml`, where you have to add a new child to the `<security-domains>` element
 
-	<security-domain name="web-tests" cache-type="default">
-		<authentication>
-			<login-module code="UsersRoles" flag="required"/>
-		</authentication>
-	</security-domain>
+```xml
+<security-domain name="web-tests" cache-type="default">
+	<authentication>
+		<login-module code="UsersRoles" flag="required"/>
+	</authentication>
+</security-domain>
+```
+
+### How to use DIGEST authentication
+
+If you want to enable the `DIGEST` authentication in `web.xml` deployment descriptor, you also need to configure the  `web-tests` security to hash passwords
+stored in the  `user.properties` files.
+
+The CLI commands to do it:
+
+	/subsystem=security/security-domain=web-tests:add(cache-type=default)
+	/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required", "module-options" => {"hashAlgorithm" => "MD5", "hashEncoding" => "RFC2617","hashUserPassword" => "false", "hashStorePassword" => "true","passwordIsA1Hash" => "false", "storeDigestCallback" => "org.jboss.security.auth.callback.RFC2617Digest" }}]) {allow-resource-service-restart=true}
+
+which results in following XML representation:
+
+```xml
+<security-domain name="web-tests" cache-type="default">
+    <authentication>
+        <login-module code="UsersRoles" flag="required">
+            <module-option name="hashAlgorithm" value="MD5"/>
+            <module-option name="hashEncoding" value="RFC2617"/>
+            <module-option name="hashUserPassword" value="false"/>
+            <module-option name="hashStorePassword" value="true"/>
+            <module-option name="passwordIsA1Hash" value="false"/>
+            <module-option name="storeDigestCallback" value="org.jboss.security.auth.callback.RFC2617Digest"/>
+        </login-module>
+    </authentication>
+</security-domain>
+```
 
 ## License
 

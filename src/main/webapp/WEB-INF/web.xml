@@ -75,6 +75,11 @@
 		<auth-method>BASIC</auth-method>
 		<realm-name>Secured kingdom</realm-name>
 	</login-config>
+
+	<login-config>
+		<auth-method>DIGEST</auth-method>
+		<realm-name>Digest secured kingdom</realm-name>
+	</login-config>
  -->
 	<security-role>
 		<role-name>Admin</role-name>
