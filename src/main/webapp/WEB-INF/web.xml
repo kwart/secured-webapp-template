@@ -16,6 +16,11 @@
 
 	<distributable/>
 
+	<context-param>
+		<param-name>resteasy.role.based.security</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>
@@ -62,23 +67,33 @@
 		</auth-constraint>
 	</security-constraint>
 
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Protect REST</web-resource-name>
+			<url-pattern>/rest/secured/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Secured kingdom</realm-name>
+	</login-config>
+
+<!-- 
+	<login-config>
+		<auth-method>DIGEST</auth-method>
+		<realm-name>Digest secured kingdom</realm-name>
+	</login-config>
+
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
 			<form-login-page>/login.jsp</form-login-page>
 			<form-error-page>/fail_login.jsp</form-error-page>
 		</form-login-config>
-	</login-config>
-
-<!-- 
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>Secured kingdom</realm-name>
-	</login-config>
-
-	<login-config>
-		<auth-method>DIGEST</auth-method>
-		<realm-name>Digest secured kingdom</realm-name>
 	</login-config>
  -->
 	<security-role>

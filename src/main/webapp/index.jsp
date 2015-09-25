@@ -65,6 +65,18 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	<li><a href="<c:url value='/LogoutServlet'/>">LogoutServlet</a> (<a href="<c:url value='/LogoutServlet?createSession='/>">with session</a>, <a href="<c:url value='/LogoutServlet?invalidateSession='/>">invalidate session</a>)</li>
 </ul>
 
+<h2>REST</h2>
+<ul>
+	<li><a href="<c:url value='/rest/login?username=user&password=user'/>">/rest/login?username=user&password=user</a> - calls HttpServletRequest.login()</li>
+	<li><a href="<c:url value='/rest/login?username=admin&password=admin'/>">/rest/login?username=admin&password=admin</a> - calls HttpServletRequest.login()</li>
+	<li><a href="<c:url value='/rest/secured'/>">/rest/secured</a> resource protected by security-contrainst in web.xml - only Admin role allowed</li>
+	<li><a href="<c:url value='/rest/role-based'/>">/role-based</a> RestEasy implementation of role based access control - class level @RolesAllowed({ "Admin", "User" })</li>
+	<li><a href="<c:url value='/rest/role-based/admin'/>">/role-based/admin</a> RestEasy implementation of role based access control - method level @RolesAllowed("Admin")</li>
+	<li><a href="<c:url value='/rest/role-based/permit'/>">/role-based/permit</a> RestEasy implementation of role based access control - method level @PermitAll</li>
+</ul>
+
+
+
 <c:if test="${not empty pageContext.request.userPrincipal}">
 	<a href="<c:url value='/logout.jsp'/>">Logout JSP</a> - invalidates session and redirects user to context root.
 </c:if>
@@ -73,11 +85,8 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	<li>user/user with role User</li>
 	<li>admin/admin with role Admin</li>
 </ul>
-<p>AS 5.x should use the user accounts automatically
-(just remove jboss-web.xml from WEB-INF folder), AS 7 needs a new security domain:</p>
+<p>You'll need a new security domain in WildFly (standalone.xml):</p>
 <pre>
-Add security domain to the JBosss AS standalone.xml:
-
 &lt;security-domain name=&quot;web-tests&quot; cache-type=&quot;default&quot;&gt;
 	&lt;authentication&gt;
 		&lt;login-module code=&quot;UsersRoles&quot; flag=&quot;required&quot;/&gt;
