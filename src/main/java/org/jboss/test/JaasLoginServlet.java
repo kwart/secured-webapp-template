@@ -3,6 +3,9 @@ package org.jboss.test;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.security.auth.Subject;
+import javax.security.auth.callback.*;
+import javax.security.auth.login.LoginContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -12,12 +15,12 @@ import javax.servlet.http.*;
  * 
  * @author Josef Cacek
  */
-@WebServlet(LoginServlet.SERVLET_PATH)
-public class LoginServlet extends HttpServlet {
+@WebServlet(JaasLoginServlet.SERVLET_PATH)
+public class JaasLoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String SERVLET_PATH = "/LoginServlet";
+    public static final String SERVLET_PATH = "/JaasLoginServlet";
     public static final String PARAM_CREATE_SESSION = "createSession";
     public static final String PARAM_USER = "user";
     public static final String PARAM_PASSWORD = "password";
@@ -42,9 +45,23 @@ public class LoginServlet extends HttpServlet {
             writer.println("<a href='index.jsp'>index.jsp</a><br/>");
             writer.println("User principal before login: " + req.getUserPrincipal() + "<br/>");
             writer.println("Calling HttpServletRequest.login()<br/>");
-            req.login(req.getParameter(PARAM_USER), req.getParameter(PARAM_PASSWORD));
-            writer.println("Login successful. User principal after login: " + req.getUserPrincipal());
-        } catch (ServletException e) {
+            LoginContext loginContext = new LoginContext("web-tests", new CallbackHandler() {
+
+                @Override
+                public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+                    for (Callback c : callbacks) {
+                        if (c instanceof PasswordCallback) {
+                            ((PasswordCallback) c).setPassword(req.getParameter(PARAM_PASSWORD).toCharArray());
+                        } else if (c instanceof NameCallback) {
+                            ((NameCallback) c).setName(req.getParameter(PARAM_USER));
+                        }
+                    }
+                }
+            });
+            loginContext.login();
+            Subject subject = loginContext.getSubject();
+            writer.println("Login successful. Subject: " + subject);
+        } catch (Exception e) {
             writer.println("Login failed");
             writer.println("<pre>");
             e.printStackTrace(writer);

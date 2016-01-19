@@ -21,11 +21,14 @@
  */
 package org.jboss.test.rest;
 
+import java.security.acl.Group;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
 /**
@@ -36,18 +39,27 @@ import javax.ws.rs.core.Context;
 @Path("/login")
 public class Login {
 
-	@Context
-	private HttpServletRequest req;
+    @Context
+    private HttpServletRequest req;
 
-	@GET
-	public String login(@QueryParam("username") String username, @QueryParam("password") String password) {
-		try {
-			req.login(username, password);
-			return username + ", you're logged in";
-		} catch (ServletException e) {
-			e.printStackTrace();
-		}
-		return "Login failed for user " + username;
-	}
+    @GET
+    public String login(@QueryParam("username") String username, @QueryParam("password") String password) {
+        try {
+            req.login(username, password);
+            Subject subject = org.jboss.security.SecurityContextAssociation.getSubject();
+            Optional<Group> rolesGroup = subject.getPrincipals(Group.class).stream().filter(p -> "Roles".equals(p.getName()))
+                    .findFirst();
+            if (rolesGroup.isPresent()) {
+                List<String> roleNames = Collections.list(rolesGroup.get().members()).stream().map(p -> p.getName())
+                        .collect(Collectors.toList());
+                return "You're logged with roles: " + roleNames;
+            } else {
+                return "You're logged without roles: " + subject;
+            }
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
+        return "Login failed for user " + username;
+    }
 
 }

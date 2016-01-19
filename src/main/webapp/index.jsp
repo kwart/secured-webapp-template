@@ -62,6 +62,7 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	<li><a href="<c:url value='/AuthnServlet'/>">AuthnServlet</a> - calls HttpServletRequest.authenticate(HttpServletResponse) (<a href="<c:url value='/AuthnServlet?createSession='/>">with session</a>)</li>
 	<li><a href="<c:url value='/LoginServlet?user=admin&password=admin'/>">LoginServlet - admin/admin</a> (<a href="<c:url value='/LoginServlet?user=admin&password=admin&createSession='/>">with session</a>)</li>
 	<li><a href="<c:url value='/LoginServlet?user=user&password=user'/>">LoginServlet - user/user</a> (<a href="<c:url value='/LoginServlet?user=user&password=user&createSession='/>">with session</a>)</li>
+	<li><a href="<c:url value='/JaasLoginServlet?user=user&password=user'/>">JaasLoginServlet - user/user</a> (<a href="<c:url value='/JaasLoginServlet?user=user&password=user&createSession='/>">with session</a>)</li>
 	<li><a href="<c:url value='/LogoutServlet'/>">LogoutServlet</a> (<a href="<c:url value='/LogoutServlet?createSession='/>">with session</a>, <a href="<c:url value='/LogoutServlet?invalidateSession='/>">invalidate session</a>)</li>
 </ul>
 
