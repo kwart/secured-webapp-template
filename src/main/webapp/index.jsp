@@ -43,6 +43,7 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	<li><a href="<c:url value='/SessionStatusCheckServlet'/>">SessionStatusCheckServlet</a> - check session status - unprotected</li>
 	<li><a href="<c:url value='/JSMCheckServlet'/>">JSMCheckServlet</a> - checks if the Java Security Manager is enabled</li>
 	<li><a href="<c:url value='/LoggingServlet'/>">LoggingServlet</a> - logs messages using java.util.logging</li>
+	<li><a href="<c:url value='/ListKeystoreTypesServlet'/>">ListKeystoreTypesServlet</a> - prints available keystore types</li>
 	<li><a href="<c:url value='/SendErrorServlet'/>">SendErrorServlet</a> - uses <code>HttpServletRequest.sendError(int)</code> method to reply with errror
 		    (error code: 
 		    <a href="<c:url value='/SendErrorServlet?code=100'/>">100</a>,
