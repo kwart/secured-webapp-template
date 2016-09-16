@@ -32,6 +32,8 @@ isUserInRole("User"): <%= request.isUserInRole("User") %>
 	<li><a href="<c:url value='/SysPropServlet'/>">SysPropServlet</a> - prints (if allowed) java.home system property value
 	    (<a href="<c:url value='/SysPropServlet?property=java.version'/>">java.version</a>,
 	    <a href="<c:url value='/SysPropServlet?property=user.home'/>">user.home</a>)</li>
+	<li><a href="<c:url value='/RolePrintingServlet'/>">RolePrintingServlet</a> - prints those role names from list given as a parameter
+	    (<a href="<c:url value='/RolePrintingServlet?role=Admin&amp;role=User&amp;role=Echo'/>">role=Admin&amp;role=User&amp;role=Echo</a>)</li>
 	<li><a href="<c:url value='/ReadFileServlet'/>">ReadFileServlet</a> - prints (if allowed) content of /etc/passwd file
 	    (<a href="<c:url value='/ReadFileServlet?file=%2Fetc%2Fgroup'/>">/etc/group</a>,
 	    <a href="<c:url value='/ReadFileServlet?file=%2Fvar%2Flog%2Fauth.log'/>">/var/log/auth.log</a>)</li>
