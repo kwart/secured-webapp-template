@@ -11,7 +11,7 @@
 	<url>https://github.com/kwart/secured-webapp-template</url>
 
 	<build>
-		<finalName>counter</finalName>
+		<finalName>nodename</finalName>
 
 		<plugins>
 			<plugin>
