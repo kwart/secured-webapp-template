@@ -72,6 +72,9 @@ which results in following XML representation:
 </security-domain>
 ```
 
+### How to configure it on EAP 7.1 + / WildFly 11 +
+	/subsystem=undertow/application-security-domain=web-tests:add(http-authentication-factory=application-http-authentication)
+
 ## License
 
 * [GNU Lesser General Public License Version 2.1](http://www.gnu.org/licenses/lgpl-2.1-standalone.html)
