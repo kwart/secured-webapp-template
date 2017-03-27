@@ -6,14 +6,15 @@
 </head>
 <body>
 	<h1>Sample secured web application</h1>
-	<p>ServletPath: ${pageContext.request.servletPath}<br/>	
-	PathInfo: ${pageContext.request.pathInfo}</p>	
+	<p>ServletPath: ${pageContext.request.servletPath}<br/>
+	PathInfo: ${pageContext.request.pathInfo}</p>
 	<p>This application contains 3 pages:</p>
 	<ul>
 		<li><a href="<c:url value='/'/>">Home page</a> - unprotected</li>
 		<li><a href="<c:url value='/user/'/>">User page</a> - only users with User or Admin role can access it</li>
 		<li><a href="<c:url value='/admin/'/>">Admin page</a> - only users with Admin role can access it</li>
 	</ul>
+	<p>... and <a href="<c:url value='/logout.jsp'/>">logout.jsp</a> which invalidates current session.</p>
 	<p>There are 2 user accounts prepared for JBoss testing:</p>
 	<ul>
 		<li>user/user with role User</li>
