@@ -65,6 +65,11 @@
 	</security-constraint>
 
 	<login-config>
+		<auth-method>SPNEGO</auth-method>
+	</login-config>
+
+<!-- 
+	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
 			<form-login-page>/login.jsp</form-login-page>
@@ -72,7 +77,6 @@
 		</form-login-config>
 	</login-config>
 
-<!-- 
 	<login-config>
 		<auth-method>BASIC</auth-method>
 		<realm-name>Secured kingdom</realm-name>
