@@ -1,8 +1,6 @@
-<%@ page session="true"%>
-
+<%@ include file="/taglibs.jsp"%>
 User '<%=request.getRemoteUser()%>' has been logged out.
-
 <% session.invalidate(); %>
+<br/>
+Return to the <a href="<c:url value='/'/>">Index page</a>
 
-<br/><br/>
-<a href="test">Click here to go to test servlet</a>
