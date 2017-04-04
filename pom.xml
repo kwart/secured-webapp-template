@@ -11,7 +11,7 @@
 	<url>https://github.com/kwart/secured-webapp-template</url>
 
 	<build>
-		<finalName>checksecure</finalName>
+		<finalName>elytron-current-domain</finalName>
 
 		<plugins>
 			<plugin>
