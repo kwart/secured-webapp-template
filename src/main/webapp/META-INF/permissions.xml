@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<permissions version="7" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+    <permission xmlns="">
+        <class-name>org.wildfly.security.permission.ElytronPermission</class-name>
+        <name>*</name>
+    </permission>
+</permissions>
