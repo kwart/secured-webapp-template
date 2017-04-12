@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.annotation.security.DeclareRoles;
-import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,29 +46,33 @@ import org.jboss.test.ejb.HelloBean;
 @DeclareRoles({ HelloBean.AUTHORIZED_ROLE, HelloBean.NOT_AUTHZ_ROLE })
 public class CallProtectedEjbServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+	public static final String JNDI_DEFAULT_NAME = "java:global/secured-webapp/" + HelloBean.class.getSimpleName() + "!"
+			+ Hello.class.getName();
+	public static final String PARAM_JNDI_NAME = "jndiName";
 
-    public static final String SERVLET_PATH = "/CallProtectedEjbServlet";
+	private static final long serialVersionUID = 1L;
 
-    @EJB
-    Hello ejb;
+	public static final String SERVLET_PATH = "/CallProtectedEjbServlet";
 
-    @Override
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/plain");
         PrintWriter writer = resp.getWriter();
         try {
-            writer.print(callProtectedEJB());
+            writer.print(callProtectedEJB(req.getParameter(PARAM_JNDI_NAME)));
         } catch (Exception e) {
             e.printStackTrace(writer);
         }
     }
 
-    protected String callProtectedEJB() throws NamingException {
-        // InitialContext context = new InitialContext();
-        // ProtectedEJB ejb = (ProtectedEJB) context.lookup("java:global/secured-webapp/" + HelloBean.class.getSimpleName()
-        // + "!" + Hello.class.getName());
-        return ejb.sayHello();
-    }
+	protected String callProtectedEJB(String name) throws NamingException {
+		if (name == null) {
+			name = JNDI_DEFAULT_NAME;
+		}
+		System.out.println("Using JNDI name: " + name);
+		InitialContext context = new InitialContext();
+		Hello ejb = (Hello) context.lookup(name);
+		return ejb.sayHello();
+	}
 
 }

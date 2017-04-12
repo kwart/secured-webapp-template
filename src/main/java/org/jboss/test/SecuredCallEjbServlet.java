@@ -23,45 +23,22 @@
 package org.jboss.test;
 
 import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RunAs;
-import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 
-import org.jboss.test.ejb.Hello;
 import org.jboss.test.ejb.HelloBean;
 
 /**
- * RunAs annotated servlet which calls protected EJB method {@link Hello#sayHello()}.
  *
  * @author Josef Cacek
  */
-@WebServlet(RunAsServlet.SERVLET_PATH)
+@WebServlet(SecuredCallEjbServlet.SERVLET_PATH)
+@ServletSecurity(@HttpConstraint(rolesAllowed = { HelloBean.AUTHORIZED_ROLE }))
 @DeclareRoles({ HelloBean.AUTHORIZED_ROLE, HelloBean.NOT_AUTHZ_ROLE })
-@RunAs(HelloBean.AUTHORIZED_ROLE)
-public class RunAsServlet extends CallProtectedEjbServlet {
+public class SecuredCallEjbServlet extends CallProtectedEjbServlet {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String SERVLET_PATH = "/RunAsServlet";
-
-    @Override
-    public void destroy() {
-        try {
-            System.out.println("Destroying " + getClass().getName());
-            System.out.println(">>>" + callProtectedEJB(null));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void init() throws ServletException {
-        try {
-            System.out.println("Initializing " + getClass().getName());
-            System.out.println(">>>" + callProtectedEJB(null));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    public static final String SERVLET_PATH = "/SecuredCallEjbServlet";
 }
