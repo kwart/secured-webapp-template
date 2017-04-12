@@ -27,6 +27,47 @@ Copy the produced `secured-webapp.war` from the `target` folder to the deploymen
 
 Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
 
+### How to configure it with Elytron
+
+The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
+Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
+
+Elytron doesn't allow to load property files from classpath in `properties-realm` implementation. Let's use a `FileSystemRealm` to introduce user population. 
+
+```bash
+bin/jboss-cli.sh << EOT
+embed-server
+
+# create realm with users
+/subsystem=elytron/filesystem-realm=web-tests:add(path=web-tests,relative-to=jboss.server.config.dir)
+
+/subsystem=elytron/filesystem-realm=web-tests/identity=user:add()
+/subsystem=elytron/filesystem-realm=web-tests/identity=user:set-password(clear={password="user"})
+/subsystem=elytron/filesystem-realm=web-tests/identity=user:add-attribute(name=groups, value=["User"])
+
+/subsystem=elytron/filesystem-realm=web-tests/identity=admin:add()
+/subsystem=elytron/filesystem-realm=web-tests/identity=admin:set-password(clear={password="admin"})
+/subsystem=elytron/filesystem-realm=web-tests/identity=admin:add-attribute(name=groups, value=["User", "Admin"])
+
+# create security domain and other necessary config objects
+/subsystem=elytron/simple-role-decoder=web-tests:add(attribute=groups)
+/subsystem=elytron/constant-permission-mapper=web-tests:add(permissions=[{class-name="org.wildfly.security.auth.permission.LoginPermission"}])
+/subsystem=elytron/security-domain=web-tests:add(default-realm=web-tests, permission-mapper=web-tests, realms=[{role-decoder=web-tests, realm=web-tests}]
+
+# add Elytron security domain mapping from Undertow and EJB subsystems 
+/subsystem=elytron/provider-http-server-mechanism-factory=web-tests:add()
+/subsystem=elytron/http-authentication-factory=web-tests:add(security-domain=web-tests, \
+  http-server-mechanism-factory=web-tests, \
+  mechanism-configurations=[ \
+    {mechanism-name=DIGEST,mechanism-realm-configurations=[{realm-name=web-tests}]}, \
+    {mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=web-tests}]}, \
+    {mechanism-name=FORM]}])
+/subsystem=undertow/application-security-domain=web-tests:add(http-authentication-factory=web-tests)
+
+/subsystem=ejb3/application-security-domain=web-tests:add(security-domain=web-tests)
+EOT
+```
+
 ### How to configure it on JBoss AS 7.x / EAP 6.x / WildFly 8.x +
 
 The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
