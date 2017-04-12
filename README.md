@@ -2,37 +2,37 @@
 
 Simple Java web application template with the secured content.
 
-## How to get it
+## Get it
 
-You should have [git](http://git-scm.com/) installed
+Get a [https://github.com/kwart/secured-webapp-template/releases](released version) or build the app yourself. 
 
-	$ git clone git://github.com/kwart/secured-webapp-template.git
+### How to build it
 
-or you can download [current sources as a zip file](https://github.com/kwart/secured-webapp-template/archive/master.zip)
+Use [git](http://git-scm.com/) to get it
 
-## How to build it
+```bash
+git clone git://github.com/kwart/secured-webapp-template.git
+```
+
+or download [current sources as a zip file](https://github.com/kwart/secured-webapp-template/archive/master.zip)
 
 You need to have [Maven](http://maven.apache.org/) installed
 
-	$ cd secured-webapp-template
-	$ mvn clean package
+```bash
+cd secured-webapp-template
+mvn clean install
+```
 
-If the target container doesn't include JSTL implementation, then set the `jstl` property while calling the Maven build
+## Configure the application server
 
-	$ mvn clean package -Djstl
-
-## How to install it
-
-Copy the produced `secured-webapp.war` from the `target` folder to the deployment folder of your container.
-
-Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
-
-### How to configure it with Elytron
-
-The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
+The vendor specific deployment descriptors (`WEB-INF/jboss-web.xml` and `WEB-INF/jboss-ejb3.xml`) refers to a `web-tests` security domain. You have to add it to your configuration.
 Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
 
-Elytron doesn't allow to load property files from classpath in `properties-realm` implementation. Let's use a `FileSystemRealm` to introduce user population. 
+### Use Elytron security
+
+Elytron is the new security framework in WildFly 11+ and EAP 7.1+.
+
+Compared to legacy security, Elytron doesn't allow to load property files from classpath in `properties-realm` implementation. We'll use a `FileSystemRealm` to introduce test users population. 
 
 ```bash
 bin/jboss-cli.sh << EOT
@@ -63,55 +63,38 @@ embed-server
     {mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=web-tests}]}, \
     {mechanism-name=FORM]}])
 /subsystem=undertow/application-security-domain=web-tests:add(http-authentication-factory=web-tests)
-
 /subsystem=ejb3/application-security-domain=web-tests:add(security-domain=web-tests)
+
 EOT
 ```
 
-### How to configure it on JBoss AS 7.x / EAP 6.x / WildFly 8.x +
+### Use Legacy security (JBoss AS 7 / EAP 6+ / WildFly 8+)
 
-The JBoss specific deployment descriptor (WEB-INF/jboss-web.xml) refers to a `web-tests` security domain. You have to add it to your configuration.
-Define the new security domain, either by using JBoss CLI (`jboss-cli.sh` / `jboss-cli.bat`):
+Just use `UsersRoles` JAAS login module which is available in the application server and it will read `users.properties` and `roles.properties` files from deployment classpath (`WEB-INF/classes`)
 
-	/subsystem=security/security-domain=web-tests:add(cache-type=default)
-	/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}
-
-or by editing `standalone/configuration/standalone.xml`, where you have to add a new child to the `<security-domains>` element
-
-```xml
-<security-domain name="web-tests" cache-type="default">
-	<authentication>
-		<login-module code="UsersRoles" flag="required"/>
-	</authentication>
-</security-domain>
+```
+/subsystem=security/security-domain=web-tests:add(cache-type=default)
+/subsystem=security/security-domain=web-tests/authentication=classic:add( \
+  login-modules=[{"code"=>"UsersRoles", "flag"=>"required"}]) {allow-resource-service-restart=true}
 ```
 
-### How to use DIGEST authentication
+#### How to use DIGEST authentication with Legacy security
 
 If you want to enable the `DIGEST` authentication in `web.xml` deployment descriptor, you also need to configure the  `web-tests` security to hash passwords
 stored in the  `user.properties` files.
 
 The CLI commands to do it:
 
-	/subsystem=security/security-domain=web-tests:add(cache-type=default)
-	/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required", "module-options" => {"hashAlgorithm" => "MD5", "hashEncoding" => "RFC2617","hashUserPassword" => "false", "hashStorePassword" => "true","passwordIsA1Hash" => "false", "storeDigestCallback" => "org.jboss.security.auth.callback.RFC2617Digest" }}]) {allow-resource-service-restart=true}
-
-which results in following XML representation:
-
-```xml
-<security-domain name="web-tests" cache-type="default">
-    <authentication>
-        <login-module code="UsersRoles" flag="required">
-            <module-option name="hashAlgorithm" value="MD5"/>
-            <module-option name="hashEncoding" value="RFC2617"/>
-            <module-option name="hashUserPassword" value="false"/>
-            <module-option name="hashStorePassword" value="true"/>
-            <module-option name="passwordIsA1Hash" value="false"/>
-            <module-option name="storeDigestCallback" value="org.jboss.security.auth.callback.RFC2617Digest"/>
-        </login-module>
-    </authentication>
-</security-domain>
+```bash
+/subsystem=security/security-domain=web-tests:add(cache-type=default)
+/subsystem=security/security-domain=web-tests/authentication=classic:add(login-modules=[{"code"=>"UsersRoles", "flag"=>"required", "module-options" => {"hashAlgorithm" => "MD5", "hashEncoding" => "RFC2617","hashUserPassword" => "false", "hashStorePassword" => "true","passwordIsA1Hash" => "false", "storeDigestCallback" => "org.jboss.security.auth.callback.RFC2617Digest" }}]) {allow-resource-service-restart=true}
 ```
+
+## Deploy and use application
+
+Copy the produced `secured-webapp.war` from the `target` folder to the deployment folder of your container.
+
+Open the application URL in the browser. E.g. [http://localhost:8080/secured-webapp/](http://localhost:8080/secured-webapp/)
 
 ## License
 
