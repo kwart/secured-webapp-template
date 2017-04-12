@@ -1,0 +1,35 @@
+jboss-eap-7.1/bin/jboss-cli.sh << EOT
+embed-server
+
+# create realm with users
+/subsystem=elytron/filesystem-realm=second-domain:add(path=second-domain,relative-to=jboss.server.config.dir)
+
+/subsystem=elytron/filesystem-realm=second-domain/identity=user:add()
+/subsystem=elytron/filesystem-realm=second-domain/identity=user:set-password(clear={password="user"})
+/subsystem=elytron/filesystem-realm=second-domain/identity=user:add-attribute(name=groups, value=["User"])
+
+/subsystem=elytron/filesystem-realm=second-domain/identity=admin:add()
+/subsystem=elytron/filesystem-realm=second-domain/identity=admin:set-password(clear={password="admin"})
+/subsystem=elytron/filesystem-realm=second-domain/identity=admin:add-attribute(name=groups, value=["User", "Admin"])
+
+# create security domain and other necessary config objects
+/subsystem=elytron/simple-role-decoder=second-domain:add(attribute=groups)
+/subsystem=elytron/constant-permission-mapper=second-domain:add(permissions=[{class-name="org.wildfly.security.auth.permission.LoginPermission"}])
+/subsystem=elytron/security-domain=second-domain:add(default-realm=second-domain, permission-mapper=second-domain, realms=[{role-decoder=second-domain, realm=second-domain}]
+
+# add Elytron security domain mapping from Undertow and EJB subsystems 
+/subsystem=elytron/provider-http-server-mechanism-factory=second-domain:add()
+/subsystem=elytron/http-authentication-factory=second-domain:add(security-domain=second-domain, \
+  http-server-mechanism-factory=second-domain, \
+  mechanism-configurations=[ \
+    {mechanism-name=DIGEST,mechanism-realm-configurations=[{realm-name=second-domain}]}, \
+    {mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=second-domain}]}, \
+    {mechanism-name=FORM]}])
+/subsystem=undertow/application-security-domain=second-domain:add(http-authentication-factory=second-domain)
+/subsystem=ejb3/application-security-domain=second-domain:add(security-domain=second-domain)
+
+/subsystem=elytron/security-domain=second-domain:write-attribute(name=outflow-security-domains,value=[web-tests])
+/subsystem=elytron/security-domain=second-domain:write-attribute(name=trusted-security-domains, value=[web-tests])
+/subsystem=elytron/security-domain=web-tests:write-attribute(name=trusted-security-domains, value=[second-domain])
+
+EOT

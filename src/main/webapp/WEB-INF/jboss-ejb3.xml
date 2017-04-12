@@ -6,7 +6,7 @@
 	<assembly-descriptor>
 		<s:security>
 			<ejb-name>*</ejb-name>
-			<s:security-domain>web-tests</s:security-domain>
+			<s:security-domain>second-domain</s:security-domain>
 		</s:security>
 	</assembly-descriptor>
 </jboss:ejb-jar>

@@ -26,7 +26,7 @@ connect
 		version="10.0" -->
 
 
-	<security-domain flushOnSessionInvalidation="true">web-tests</security-domain>
+	<security-domain flushOnSessionInvalidation="true">second-domain</security-domain>
 	<disable-audit>false</disable-audit>
 <!--
 	<context-root>secured-webapp</context-root>
