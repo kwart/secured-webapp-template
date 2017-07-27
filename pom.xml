@@ -59,6 +59,10 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin><!-- to deploy run: mvn wildfly:deploy -->
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 
