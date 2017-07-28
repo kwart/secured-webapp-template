@@ -4,7 +4,7 @@ Simple Java web application template with the secured content.
 
 ## Get it
 
-Get a [https://github.com/kwart/secured-webapp-template/releases](released version) or build the app yourself. 
+Get a [released version](https://github.com/kwart/secured-webapp-template/releases) or build the app yourself.
 
 ### How to build it
 
