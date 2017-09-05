@@ -41,13 +41,13 @@ embed-server
 # create realm with users
 /subsystem=elytron/filesystem-realm=web-tests:add(path=web-tests,relative-to=jboss.server.config.dir)
 
-/subsystem=elytron/filesystem-realm=web-tests/identity=user:add()
-/subsystem=elytron/filesystem-realm=web-tests/identity=user:set-password(clear={password="user"})
-/subsystem=elytron/filesystem-realm=web-tests/identity=user:add-attribute(name=groups, value=["User"])
+/subsystem=elytron/filesystem-realm=web-tests:add-identity(identity=user)
+/subsystem=elytron/filesystem-realm=web-tests:set-password(identity=user, clear={password="user"})
+/subsystem=elytron/filesystem-realm=web-tests:add-identity-attribute(identity=user, name=groups, value=["Users"])
 
-/subsystem=elytron/filesystem-realm=web-tests/identity=admin:add()
-/subsystem=elytron/filesystem-realm=web-tests/identity=admin:set-password(clear={password="admin"})
-/subsystem=elytron/filesystem-realm=web-tests/identity=admin:add-attribute(name=groups, value=["User", "Admin"])
+/subsystem=elytron/filesystem-realm=web-tests:add-identity(identity=admin)
+/subsystem=elytron/filesystem-realm=web-tests:set-password(identity=admin, clear={password="admin"})
+/subsystem=elytron/filesystem-realm=web-tests:add-identity-attribute(identity=admin, name=groups, value=["Users", "Admin"])
 
 # create security domain and other necessary config objects
 /subsystem=elytron/simple-role-decoder=web-tests:add(attribute=groups)
