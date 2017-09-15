@@ -61,7 +61,7 @@ embed-server
   mechanism-configurations=[ \
     {mechanism-name=DIGEST,mechanism-realm-configurations=[{realm-name=web-tests}]}, \
     {mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=web-tests}]}, \
-    {mechanism-name=FORM]}])
+    {mechanism-name=FORM}])
 /subsystem=undertow/application-security-domain=web-tests:add(http-authentication-factory=web-tests)
 /subsystem=ejb3/application-security-domain=web-tests:add(security-domain=web-tests)
 
