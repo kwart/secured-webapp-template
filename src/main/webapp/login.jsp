@@ -5,6 +5,7 @@
     <title>Login</title>
 </head>
 <body>
+<h2>Login Java2Days demo</h2>
 <form method="post" id="loginForm" action="j_security_check">
 <fieldset>
 <ul>
